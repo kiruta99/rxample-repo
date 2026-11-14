@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chef's Palette - Modern Culinary & Fitness Engine</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="auth-portal-wrapper">
+        <div class="portal-wrapper">
+            <div class="portal-hero">
+                <h1>🍳 Chef's Palette</h1>
+                <p>An elite, API-powered culinary workspace. Input your available inventory, sync your biological target profile, and explore professional live recipes complete with macro-targeted calorie models and instant cooking instructions.</p>
+            </div>
+
+            <div class="portal-form-panel">
+                <div id="error-banner" class="error-msg"></div>
+                <div id="success-banner" class="success-msg"></div>
+
+                <div id="login-form" class="form-container">
+                    <h2>Sign In</h2>
+                    <p class="form-subtitle">Access your smart kitchen workspace.</p>
+                    <form onsubmit="handleLogin(event)">
+                        <div class="input-group">
+                            <label for="login-email">Email Address</label>
+                            <input type="email" id="login-email" required placeholder="chef@example.com">
+                        </div>
+                        <div class="input-group">
+                            <label for="login-password">Password</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="login-password" required placeholder="••••••••">
+                                <button type="button" class="toggle-password" onclick="togglePasswordVisibility('login-password', this)">👁️</button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn">Sign In to Kitchen</button>
+                    </form>
+                    <p class="switch-text">New to Chef's Palette? <span onclick="switchAuthView('signup')">Create an account</span></p>
+                </div>
+
+                <div id="signup-form" class="form-container hidden">
+                    <h2>Create Account</h2>
+                    <p class="form-subtitle">Join our culinary workspace today.</p>
+                    <form onsubmit="handleSignup(event)">
+                        <div class="input-group">
+                            <label for="signup-name">Full Name</label>
+                            <input type="text" id="signup-name" required placeholder="Gordon Ramsay">
+                        </div>
+                        <div class="input-group">
+                            <label for="signup-email">Email Address</label>
+                            <input type="email" id="signup-email" required placeholder="chef@example.com">
+                        </div>
+                        <div class="input-group">
+                            <label for="signup-password">Password</label>
+                            <div class="password-wrapper">
+                                <input type="password" id="signup-password" required placeholder="Min 6 characters">
+                                <button type="button" class="toggle-password" onclick="togglePasswordVisibility('signup-password', this)">👁️</button>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn">Continue Setup</button>
+                    </form>
+                    <p class="switch-text">Already registered? <span onclick="switchAuthView('login')">Sign In</span></p>
+                </div>
+
+                <div id="profile-form" class="form-container hidden">
+                    <h2>Biometric Profile</h2>
+                    <p class="form-subtitle">Configure your physical statistics for exact calorie calibration.</p>
+                    <form onsubmit="handleProfileSetup(event)">
+                        <div class="row-group">
+                            <div class="input-group">
+                                <label for="profile-gender">Gender</label>
+                                <select id="profile-gender" required>
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="profile-age">Age</label>
+                                <input type="number" id="profile-age" required min="10" max="120" placeholder="25">
+                            </div>
+                        </div>
+                        <div class="row-group">
+                            <div class="input-group">
+                                <label for="profile-height">Height (cm)</label>
+                                <input type="number" id="profile-height" required min="50" max="250" placeholder="175">
+                            </div>
+                            <div class="input-group">
+                                <label for="profile-weight">Weight (kg)</label>
+                                <input type="number" id="profile-weight" required min="20" max="300" placeholder="70">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn">Launch Smart Workspace</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dashboard-view" class="hidden">
+        <header class="platform-header">
+            <h2>🍳 Chef's Palette Workspace</h2>
+            <div class="user-welcome-badge">Welcome back, <span id="dash-name">Chef</span></div>
+        </header>
+
+        <div class="platform-body">
+            <nav class="platform-sidebar">
+                <div>
+                    <div class="sidebar-menu-title">Kitchen Tools</div>
+                    <a class="sidebar-link active" onclick="resetWorkflow()">🥗 Recipe Matcher Engine</a>
+                    <a class="sidebar-link" onclick="alert('Feature coming soon in next update!')">⭐ Saved Favorites</a>
+                    <a class="sidebar-link" onclick="alert('Feature coming soon in next update!')">📊 Nutrition Summary</a>
+                </div>
+                <div>
+                    <button class="btn" style="background: linear-gradient(135deg, #ef4444, #991b1b); padding: 12px; font-size: 13px;" onclick="handleLogout()">Log Out</button>
+                </div>
+            </nav>
+
+            <main class="platform-content">
+                <div class="content-card">
+                    
+                    <div id="step-1-container" class="step-panel">
+                        <h3 style="font-size: 22px; margin-bottom: 8px; color: var(--text-main);">Step 1: What ingredients do you have?</h3>
+                        <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 24px;">Type any cooking ingredients separated by commas (e.g., <em>octopus, shrimp, chicken, garlic, rice, beef</em>).</p>
+                        
+                        <div class="input-group" style="margin-bottom: 16px;">
+                            <label for="user-ingredient-input">Available Ingredients Inventory:</label>
+                            <input type="text" id="user-ingredient-input" placeholder="e.g., octopus, garlic, rice">
+                        </div>
+                        <button type="button" class="btn" onclick="proceedToGoalSelection()">Next: Choose Fitness Goal →</button>
+                    </div>
+
+                    <div id="step-2-container" class="step-panel hidden">
+                        <button type="button" onclick="backToStep1()" style="background: none; border: none; color: var(--primary); font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: 18px;">← Back to Ingredients</button>
+                        <h3 style="font-size: 22px; margin-bottom: 8px; color: var(--text-main);">Step 2: Select Your Health Goal</h3>
+                        <p style="font-size: 14px; color: var(--text-muted); margin-bottom: 20px;">Choose how you want your customized recipe options categorized and calibrated:</p>
+                        
+                        <div class="goal-cards-grid">
+                            <div class="goal-card" onclick="selectFitnessGoal('lose')">
+                                <span class="badge-goal badge-lose">📉 Calorie Deficit</span>
+                                <h4>Lose Weight</h4>
+                                <p>Lighter portions optimized for fat loss and healthy weight reduction.</p>
+                            </div>
+                            <div class="goal-card" onclick="selectFitnessGoal('maintain')">
+                                <span class="badge-goal badge-maintain">⚖️ Balanced Diet</span>
+                                <h4>Maintain Weight</h4>
+                                <p>Nutritionally balanced meals to sustain your daily energy level.</p>
+                            </div>
+                            <div class="goal-card" onclick="selectFitnessGoal('gain')">
+                                <span class="badge-goal badge-gain">📈 Calorie Surplus</span>
+                                <h4>Gain Weight</h4>
+                                <p>High-protein, energy-dense meals designed for muscle mass & recovery.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="step-3-container" class="step-panel hidden">
+                        <button type="button" onclick="backToStep2()" style="background: none; border: none; color: var(--primary); font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: 18px;">← Back to Goal Selection</button>
+                        <div id="recipe-list-header"></div>
+                        <div id="api-recipes-list" style="margin-top: 15px;"></div>
+                    </div>
+
+                    <div id="step-4-container" class="step-panel hidden">
+                        <button type="button" onclick="backToStep3()" style="background: none; border: none; color: var(--primary); font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: 18px;">← Back to Recipe List</button>
+                        <div id="detailed-instruction-content"></div>
+                    </div>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
